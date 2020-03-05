@@ -1,6 +1,7 @@
 import * as React from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { AuthProvider } from '../context/AuthContext';
 
@@ -9,6 +10,7 @@ import protectedRoutes from './ProtectedRoutesList';
 import SignIn from '../screens/SignIn';
 
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 const PublicStackNavigator = ({ navigation }) => {
   const [state, dispatch] = React.useReducer(
@@ -91,9 +93,7 @@ const PublicStackNavigator = ({ navigation }) => {
         {state.userToken == null ? (
           <Stack.Screen name="SignIn" component={SignIn} />
         ) : (
-            protectedRoutes.map((route, i) => (
-              <Stack.Screen key={i} name={route.name} component={route.component} />
-            ))
+            <Stack.Screen name="TabNavigator" component={TabNavigator} />
           )}
       </Stack.Navigator>
     </AuthProvider>
@@ -101,3 +101,11 @@ const PublicStackNavigator = ({ navigation }) => {
 }
 
 export default PublicStackNavigator;
+
+const TabNavigator = () => (
+  <Tab.Navigator>
+    {protectedRoutes.bottomTabNavigator.map((route, i) =>
+      <Tab.Screen key={i} name={route.name} component={route.component} />
+    )}
+  </Tab.Navigator>
+);
