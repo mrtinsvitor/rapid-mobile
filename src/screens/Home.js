@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-community/async-storage';
 import React from 'react';
 
 import {
@@ -10,6 +11,11 @@ import AuthContext from '../context/AuthContext';
 
 const Home = ({ navigation }) => {
   const { signOut } = React.useContext(AuthContext);
+
+  // React.useEffect(() => {
+  //   console.log(AsyncStorage.getItem('@user'))
+
+  // })
 
   return (
     <View>

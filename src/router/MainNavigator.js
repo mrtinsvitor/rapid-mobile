@@ -1,4 +1,9 @@
 import React from 'react';
+import AsyncStorage from '@react-native-community/async-storage';
+
+import {
+  View
+} from 'react-native';
 import {
   Layout,
   Spinner,
@@ -12,7 +17,7 @@ import AuthContext from '../context/AuthContext';
 import AppNavigator from './navigators/AppNavigator';
 import AuthStackNavigator from './navigators/AuthStackNavigator';
 
-const RootStack = createStackNavigator();
+import api from '../utils/api';
 
 export default () => {
   const [isLoading, setIsLoading] = React.useState(true);
@@ -20,55 +25,60 @@ export default () => {
 
   const authContext = React.useMemo(() => {
     return {
-      signIn: () => {
+      signIn: async (email, password) => {
+        try {
+          const user = await api.get('/students/find-by-email', { email });
+
+          if (user) {
+            await AsyncStorage.setItem('@user', JSON.stringify(user));
+            setUserToken(user);
+          }
+
+        } catch (error) {
+          console.log('[ERROR]: ', error);
+        }
+
         setIsLoading(false);
-        setUserToken("asdf");
       },
       signUp: () => {
         setIsLoading(false);
         setUserToken("asdf");
       },
-      signOut: () => {
-        setIsLoading(false);
+      signOut: async () => {
+        setIsLoading(true);
         setUserToken(null);
+        await AsyncStorage.clear();
+        setIsLoading(false);
       }
     };
   }, []);
 
   React.useEffect(() => {
-    setTimeout(() => {
+    const getUserFromStorage = async () => {
+      const user = await AsyncStorage.getItem('@user');
+
+      if (user) {
+        setUserToken(user);
+      }
+
       setIsLoading(false);
-    }, 1000);
+    }
+
+    getUserFromStorage();
   }, []);
 
   if (isLoading) {
-    return <Spinner size='giant' />;
+    return (
+      <View style={{ flex: 1, display: 'flex', justifyContent: 'center', alignSelf: 'center' }}>
+        <Spinner size='giant' />
+      </View>
+    );
   }
 
   return (
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
-        <RootStack.Navigator >
-          {userToken ? (
-            <RootStack.Screen
-              name="App"
-              component={AppNavigator}
-              screenOptions={{}}
-              options={{
-                headerShown: false
-              }}
-            />
-          ) : (
-              <RootStack.Screen
-                name="Auth"
-                component={AuthStackNavigator}
-                options={{
-                  headerShown: false,
-                  animationEnabled: false
-                }}
-              />
-            )}
-        </RootStack.Navigator>
+        {userToken ? (<AppNavigator />) : (<AuthStackNavigator />)}
       </NavigationContainer>
     </AuthContext.Provider>
   );

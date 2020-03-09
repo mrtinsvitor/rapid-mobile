@@ -7,6 +7,13 @@ import {
   Layout
 } from '@ui-kitten/components';
 
+import {
+  HomeIcon,
+  PersonOutlineIcon,
+  BookIcon,
+  SettingsIcon
+} from '../Utils/Icons';
+
 export default ({ navigation, state }) => {
   const onSelect = (index) => {
     navigation.navigate(state.routeNames[index]);
@@ -19,29 +26,13 @@ export default ({ navigation, state }) => {
         selectedIndex={state.index}
         onSelect={onSelect}>
         <BottomNavigationTab icon={HomeIcon} />
-        <BottomNavigationTab icon={PersonIcon} />
+        <BottomNavigationTab icon={PersonOutlineIcon} />
         <BottomNavigationTab icon={BookIcon} />
         <BottomNavigationTab icon={SettingsIcon} />
       </BottomNavigation>
     </Layout>
   );
 };
-
-const HomeIcon = (style) => (
-  <Icon {...style} name='home-outline' />
-);
-
-const PersonIcon = (style) => (
-  <Icon {...style} name='person-outline' />
-);
-
-const BookIcon = (style) => (
-  <Icon {...style} name='book-open-outline' />
-);
-
-const SettingsIcon = (style) => (
-  <Icon {...style} name='settings-2-outline' />
-);
 
 const styles = StyleSheet.create({
   bottomNavigation: {

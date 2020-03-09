@@ -1,7 +1,9 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Input, Text } from '@ui-kitten/components';
-import { ImageOverlay } from './extra/image-overlay.component';
+
+import { ImageOverlay } from '../components/Utils/ImageOverlayComponent';
+import { KeyboardAvoidingView } from '../components/Utils/KeyboardAvoidingView';
 import {
   EyeIcon,
   EyeOffIcon,
@@ -9,22 +11,16 @@ import {
   GoogleIcon,
   PersonIcon,
   TwitterIcon,
-} from './extra/icons';
-import { KeyboardAvoidingView } from './extra/3rd-party';
+} from '../components/Utils/Icons';
 
-const Login = ({ navigation }) => {
+import AuthContext from '../context/AuthContext';
 
+const Login = ({ navigation, route }) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [passwordVisible, setPasswordVisible] = React.useState(false);
 
-  const onSignInButtonPress = () => {
-    navigation && navigation.goBack();
-  };
-
-  const onSignUpButtonPress = () => {
-    navigation && navigation.navigate('SignUp4');
-  };
+  const { signIn, signUp } = React.useContext(AuthContext);
 
   const onForgotPasswordButtonPress = () => {
     navigation && navigation.navigate('ForgotPassword');
@@ -38,18 +34,18 @@ const Login = ({ navigation }) => {
     <KeyboardAvoidingView>
       <ImageOverlay
         style={styles.container}
-        source={require('./assets/image-background.jpg')}>
+        source={require('../assets/img/login-background2.jpeg')}>
         <View style={styles.headerContainer}>
           <Text
             category='h1'
             status='control'>
-            Hello
+            Rappid
           </Text>
           <Text
             style={styles.signInLabel}
             category='s1'
             status='control'>
-            Sign in to your account
+            Faça login na sua conta
           </Text>
         </View>
         <View style={styles.formContainer}>
@@ -63,7 +59,7 @@ const Login = ({ navigation }) => {
           <Input
             style={styles.passwordInput}
             status='control'
-            placeholder='Password'
+            placeholder='Senha'
             icon={passwordVisible ? EyeIcon : EyeOffIcon}
             value={password}
             secureTextEntry={!passwordVisible}
@@ -76,21 +72,21 @@ const Login = ({ navigation }) => {
               appearance='ghost'
               status='control'
               onPress={onForgotPasswordButtonPress}>
-              Forgot your password?
+              Esqueceu sua senha?
             </Button>
           </View>
         </View>
         <Button
           style={styles.signInButton}
           size='giant'
-          onPress={onSignInButtonPress}>
-          SIGN IN
+          onPress={() => signIn(email, password)}>
+          LOGIN
         </Button>
         <View style={styles.socialAuthContainer}>
           <Text
             style={styles.socialAuthHintText}
             status='control'>
-            Or Sign In using Social Media
+            Ou logue utilizando uma rede social
           </Text>
           <View style={styles.socialAuthButtonsContainer}>
             <Button
@@ -117,8 +113,8 @@ const Login = ({ navigation }) => {
           style={styles.signUpButton}
           appearance='ghost'
           status='control'
-          onPress={onSignUpButtonPress}>
-          Don't have an account? Sign Up
+          onPress={signUp}>
+          Não tem uma conta? Cadastre-se
         </Button>
       </ImageOverlay>
     </KeyboardAvoidingView>
