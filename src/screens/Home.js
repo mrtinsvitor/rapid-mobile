@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 import {
@@ -15,6 +14,7 @@ const Home = ({ navigation }) => {
   return (
     <View>
       <Text>Hello world</Text>
+      <Button title="Event" onPress={() => navigation.push("Event", { name: 'Evento 2' })} />
       <Button title="Sign out" onPress={() => signOut()} />
     </View>
   );
