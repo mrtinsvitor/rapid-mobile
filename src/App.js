@@ -3,7 +3,7 @@ import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { mapping, light as theme } from '@eva-design/eva';
 
-import MainNavigator from './routes/MainNavigator';
+import MainNavigator from './router/MainNavigator';
 
 const App = () => (
   <>

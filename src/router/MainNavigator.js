@@ -48,7 +48,7 @@ export default () => {
   return (
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
-        <RootStack.Navigator>
+        <RootStack.Navigator >
           {userToken ? (
             <RootStack.Screen
               name="App"
