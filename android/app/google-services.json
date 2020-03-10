@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "784193040525",
+    "firebase_url": "https://rappid-mobile.firebaseio.com",
+    "project_id": "rappid-mobile",
+    "storage_bucket": "rappid-mobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:784193040525:android:e9eb4461380cd5dd4472c4",
+        "android_client_info": {
+          "package_name": "com.rappid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "784193040525-4u0msv7pokcbi8ugc5j8cnl8licqv0vb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPl1Wv7-ZP69C6qOWu7ZBLQ48YTJ_H3ok"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "784193040525-4u0msv7pokcbi8ugc5j8cnl8licqv0vb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

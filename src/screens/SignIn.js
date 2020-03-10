@@ -1,4 +1,6 @@
 import React from 'react';
+import auth from '@react-native-firebase/auth';
+
 import { StyleSheet, View } from 'react-native';
 import { Button, Input, Text } from '@ui-kitten/components';
 
@@ -15,9 +17,9 @@ import {
 
 import AuthContext from '../context/AuthContext';
 
-const Login = ({ navigation, route }) => {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+export default ({ navigation, route }) => {
+  const [email, setEmail] = React.useState("admin@admin.com");
+  const [password, setPassword] = React.useState("admin123");
   const [passwordVisible, setPasswordVisible] = React.useState(false);
 
   const { signIn, signUp } = React.useContext(AuthContext);
@@ -165,5 +167,3 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
 });
-
-export default Login;
