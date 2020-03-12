@@ -12,6 +12,7 @@ import {
   Layout,
   Spinner,
 } from '@ui-kitten/components';
+import OverlaySpinner from 'react-native-loading-spinner-overlay';
 
 import AuthContext from '../context/AuthContext';
 
@@ -22,18 +23,28 @@ import api from '../utils/api';
 
 export default () => {
   const [isLoading, setIsLoading] = React.useState(true);
+  const [isLoadingAuth, setIsLoadingAuth] = React.useState(false);
   const [user, setUser] = React.useState(null);
 
   React.useEffect(() => {
     const getUser = async () => {
       const subscriber = auth().onAuthStateChanged(firebaseUser => {
-        if (firebaseUser) {
-          setUser(firebaseUser);
+        if (!firebaseUser) {
+          console.warn('[NÃO POSSUI FIREBASE USER]: ', firebaseUser);
+          setUser(null);
+          return;
         }
 
-        setIsLoading(false);
+        let user = AsyncStorage.getItem('@user');
+        if (!user) {
+          console.warn('[NÃO POSSUI USUÁRIO NO STORAGE]: ', user);
+          user = getUserByEmail(firebaseUser.email);
+        }
+
+        setUser(user);
       });
 
+      setIsLoading(false);
       return subscriber; // unsubscribe on unmount
     }
 
@@ -43,33 +54,62 @@ export default () => {
   const authContext = React.useMemo(() => {
     return {
       signIn: async (email, password) => {
-        console.log(email)
+        setIsLoadingAuth(true);
         try {
-          const firebaseUser = await auth().signInWithEmailAndPassword(email, password);
-          console.log('[[GET USER FIREBASE]]', firebaseUser);
-          // const user = await api.get('/students/find-by-email', { email: firebaseUser.user.email });
-          console.log('{USER}: ', user);
+          const user = await api.get('/students/find-by-email', { email });
+          if (!user) {
+            return Alert.alert(
+              'Usuário ou senha incorretos',
+              'Tente novamente',
+              [
+                { text: 'OK', onPress: () => console.log('OK Pressed') },
+              ],
+              { cancelable: true },
+            );
+          }
 
+          const firebaseUser = await auth().signInWithEmailAndPassword(email, password);
+          console.debug('[[GET USER FIREBASE]]', firebaseUser);
+
+          setIsLoadingAuth(false);
           setUser(firebaseUser);
         } catch (error) {
-          console.warn('[ERROR]: ', error);
+          console.warn('[ERROR signIn]: ', error);
         }
-
-        setIsLoading(false);
       },
       signUp: () => {
         setIsLoading(false);
         setUserToken("asdf");
       },
       signOut: async () => {
-        setIsLoading(true);
-        await auth().signOut();
-        setUser(null);
-        await AsyncStorage.clear();
+        await authSignOut();
         setIsLoading(false);
       }
     };
   }, []);
+
+  const authSignOut = async () => {
+    await auth().signOut();
+    await AsyncStorage.clear();
+
+    setUser(null);
+  }
+
+  const getUserByEmail = async (email) => {
+    try {
+      const user = await api.get('/students/find-by-email', { email });
+      if (!user) {
+        return authSignOut();
+      }
+
+      await AsyncStorage.setItem('@user', user);
+
+      return user;
+    } catch (error) {
+      console.log('[ERROR getUserByEmail] ', error);
+      return null;
+    }
+  }
 
   if (isLoading) {
     return (
@@ -82,7 +122,20 @@ export default () => {
   return (
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
-        {user ? (<AppNavigator />) : (<AuthStackNavigator />)}
+        {user ?
+          (<AppNavigator />) :
+          (
+            <>
+              {isLoadingAuth && 
+                <OverlaySpinner
+                  visible={true}
+                  textContent={'Loading...'}
+                />
+              }
+              <AuthStackNavigator />
+            </>
+          )
+        }
       </NavigationContainer>
     </AuthContext.Provider>
   );

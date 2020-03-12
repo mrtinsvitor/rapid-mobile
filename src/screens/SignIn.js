@@ -1,7 +1,13 @@
 import React from 'react';
+
+import AsyncStorage from '@react-native-community/async-storage';
 import auth from '@react-native-firebase/auth';
 
-import { StyleSheet, View } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Alert
+} from 'react-native';
 import { Button, Input, Text } from '@ui-kitten/components';
 
 import { ImageOverlay } from '../components/Utils/ImageOverlayComponent';
@@ -15,7 +21,11 @@ import {
   TwitterIcon,
 } from '../components/Utils/Icons';
 
+import GenericAlert from '../components/GenericAlert';
+
 import AuthContext from '../context/AuthContext';
+
+import api from '../utils/api';
 
 export default ({ navigation, route }) => {
   const [email, setEmail] = React.useState("admin@admin.com");
