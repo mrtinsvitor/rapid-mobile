@@ -1,5 +1,4 @@
 import React from 'react';
-import AsyncStorage from '@react-native-community/async-storage';
 import auth from '@react-native-firebase/auth';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -20,6 +19,7 @@ import AppNavigator from './navigators/AppNavigator';
 import AuthStackNavigator from './navigators/AuthStackNavigator';
 
 import api from '../utils/api';
+import storage from '../utils/storage';
 
 export default () => {
   const [isLoading, setIsLoading] = React.useState(true);
@@ -28,23 +28,22 @@ export default () => {
 
   React.useEffect(() => {
     const getUser = async () => {
-      const subscriber = auth().onAuthStateChanged(firebaseUser => {
+      const subscriber = await auth().onAuthStateChanged(async firebaseUser => {
         if (!firebaseUser) {
-          console.warn('[NÃO POSSUI FIREBASE USER]: ', firebaseUser);
           setUser(null);
+          setIsLoading(false);
           return;
         }
 
-        let user = AsyncStorage.getItem('@user');
+        let user = await storage.getItem('@user');
         if (!user) {
-          console.warn('[NÃO POSSUI USUÁRIO NO STORAGE]: ', user);
-          user = getUserByEmail(firebaseUser.email);
+          user = await getUserByEmail(firebaseUser.email);
         }
-
+        
+        setIsLoading(false);
         setUser(user);
       });
 
-      setIsLoading(false);
       return subscriber; // unsubscribe on unmount
     }
 
@@ -69,7 +68,6 @@ export default () => {
           }
 
           const firebaseUser = await auth().signInWithEmailAndPassword(email, password);
-          console.debug('[[GET USER FIREBASE]]', firebaseUser);
 
           setIsLoadingAuth(false);
           setUser(firebaseUser);
@@ -90,7 +88,7 @@ export default () => {
 
   const authSignOut = async () => {
     await auth().signOut();
-    await AsyncStorage.clear();
+    await storage.clear();
 
     setUser(null);
   }
@@ -102,7 +100,7 @@ export default () => {
         return authSignOut();
       }
 
-      await AsyncStorage.setItem('@user', user);
+      await storage.setItem('@user', user);
 
       return user;
     } catch (error) {
@@ -126,7 +124,7 @@ export default () => {
           (<AppNavigator />) :
           (
             <>
-              {isLoadingAuth && 
+              {isLoadingAuth &&
                 <OverlaySpinner
                   visible={true}
                   textContent={'Loading...'}
