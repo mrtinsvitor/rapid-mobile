@@ -1,28 +1,48 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import tron from 'reactotron-react-native';
+
 import React from 'react';
 
 import {
   View,
   Text,
-  Button
+  SafeAreaView,
+  ScrollView
 } from 'react-native';
 
-import AuthContext from '../context/AuthContext';
+import {
+  List,
+  TouchableRipple
+} from 'react-native-paper';
+
+import api from '../utils/api';
+import EventCard from '../components/EventCard/EventCard';
 
 const Home = ({ navigation }) => {
-  const { signOut } = React.useContext(AuthContext);
+  const [events, setEvents] = React.useState(null);
+  const [eventsLoading, setEventsLoading] = React.useState(true);
 
-  // React.useEffect(() => {
-  //   console.log(AsyncStorage.getItem('@user'))
+  React.useEffect(() => {
+    async function getEvents() {
+      const eventList = await api.get('/events');
+      setEvents(eventList);
+      setEventsLoading(false);
+    }
 
-  // })
+    getEvents();
+  }, []);
 
   return (
-    <View>
-      <Text>Hello world</Text>
-      <Button title="Event" onPress={() => navigation.push("Event", { name: 'Evento 2' })} />
-      <Button title="Sign out" onPress={() => signOut()} />
-    </View>
+    <SafeAreaView>
+      {!eventsLoading &&
+        <ScrollView>
+          <List.Section style={{ paddingLeft: 15, paddingTop: 15, paddingBottom: 15 }}>
+            {events.map((event, i) =>
+              <EventCard key={i} event={event} />
+            )}
+          </List.Section>
+        </ScrollView>
+      }
+    </SafeAreaView>
   );
 }
 

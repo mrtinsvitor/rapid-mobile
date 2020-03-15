@@ -1,25 +1,27 @@
+import tron from 'reactotron-react-native';
+
 import AsyncStorage from '@react-native-community/async-storage';
 
 export default {
   getItem: async (key) => {
     const item = await AsyncStorage.getItem(key);
-    console.debug(`(AsyncStorage.getItem(${key})): ${JSON.stringify(item)}`);
+    // tron.log(`(AsyncStorage.getItem(${key})): ${item}`);
 
     return item;
   },
   setItem: async (key, value) => {
-    console.debug(`(AsyncStorage.setItem(${key})): ${JSON.stringify(value)}`);
+    tron.log(`(AsyncStorage.setItem(${key})): ${JSON.stringify(value)}`);
 
     const item = await AsyncStorage.setItem(key, JSON.stringify(value));
     return item;
   },
   removeItem: async (key) => {
-    console.debug(`(AsyncStorage.removeItem(${key}))`);
+    tron.log(`(AsyncStorage.removeItem(${key}))`);
 
     await AsyncStorage.removeItem(key);
   },
   clear: async() => {
-    console.debug('(AsyncStorage.clear())');
+    tron.log('(AsyncStorage.clear())');
 
     await AsyncStorage.clear();
   }
