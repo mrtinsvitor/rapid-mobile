@@ -35,10 +35,8 @@ const Home = ({ navigation }) => {
     <SafeAreaView>
       {!eventsLoading &&
         <ScrollView>
-          <List.Section style={{ paddingLeft: 15, paddingTop: 15, paddingBottom: 15 }}>
-            {events.map((event, i) =>
-              <EventCard key={i} event={event} />
-            )}
+          <List.Section style={{ paddingTop: 15, paddingBottom: 15 }}>
+            {events.map((event, i) => <EventCard key={i} event={event} />)}
           </List.Section>
         </ScrollView>
       }
