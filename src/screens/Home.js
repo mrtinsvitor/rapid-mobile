@@ -15,6 +15,8 @@ import {
 } from 'react-native-paper';
 
 import api from '../utils/api';
+import storage from '../utils/storage';
+
 import EventCard from '../components/EventCard/EventCard';
 
 const Home = ({ navigation }) => {
@@ -23,9 +25,17 @@ const Home = ({ navigation }) => {
 
   React.useEffect(() => {
     async function getEvents() {
-      const eventList = await api.get('/events');
-      setEvents(eventList);
-      setEventsLoading(false);
+      try {
+        const user = await storage.getItem('@user');
+        tron.log('user', user)
+
+        const eventList = await api.get(`/events/find-by-study-field/${user.course.studyFieldId}`);
+
+        setEvents(eventList.sort((a, b) => new Date(a.event.eventDate) - new Date(b.event.eventDate)));
+        setEventsLoading(false);
+      } catch (e) {
+        tron.log('[ERROR getEvents()]: ', e);
+      }
     }
 
     getEvents();
@@ -36,7 +46,7 @@ const Home = ({ navigation }) => {
       {!eventsLoading &&
         <ScrollView>
           <List.Section style={{ paddingTop: 15, paddingBottom: 15 }}>
-            {events.map((event, i) => <EventCard key={i} event={event} />)}
+            {events.map((event, i) => <EventCard key={i} data={event} />)}
           </List.Section>
         </ScrollView>
       }

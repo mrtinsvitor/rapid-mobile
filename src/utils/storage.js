@@ -7,7 +7,7 @@ export default {
     const item = await AsyncStorage.getItem(key);
     // tron.log(`(AsyncStorage.getItem(${key})): ${item}`);
 
-    return item;
+    return JSON.parse(item);
   },
   setItem: async (key, value) => {
     tron.log(`(AsyncStorage.setItem(${key})): ${JSON.stringify(value)}`);
