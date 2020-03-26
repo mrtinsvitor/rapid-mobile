@@ -1,14 +1,7 @@
 import React from "react";
 import {
-  View,
-  Text
-} from 'react-native';
-import {
-  BottomNavigation,
-  BottomNavigationTab,
-  Icon,
-  Layout,
-} from '@ui-kitten/components';
+  IconButton
+} from 'react-native-paper';
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -33,8 +26,18 @@ export default () => {
 
 const HomeStack = createStackNavigator();
 const HomeStackScreen = () => (
-  <HomeStack.Navigator initialRouteName="Home">
-    <HomeStack.Screen name="Home" component={Home} />
+  <HomeStack.Navigator initialRouteName="Eventos" screenOptions={{
+    headerStyle: {
+      backgroundColor: '#007bff',
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontFamily: 'Raleway-Bold',
+    },
+    headerTitleAlign: "center"
+  }}
+  >
+    <HomeStack.Screen name="Eventos" component={Home} />
     <HomeStack.Screen name="Event" component={Event} />
   </HomeStack.Navigator>
 );

@@ -11,8 +11,12 @@ import {
 
 import {
   List,
-  TouchableRipple
+  TouchableRipple,
+  IconButton,
+  Button
 } from 'react-native-paper';
+
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import api from '../utils/api';
 import storage from '../utils/storage';
@@ -23,6 +27,22 @@ const Home = ({ navigation }) => {
   const [events, setEvents] = React.useState(null);
   const [eventsLoading, setEventsLoading] = React.useState(true);
 
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableRipple>
+          <IconButton
+            icon="calendar-search"
+            color='#fff'
+            size={24}
+            style={{ marginRight: 20 }}
+            onPress={() => tron.log('click')}
+          />
+        </TouchableRipple>
+      ),
+    });
+  }, [navigation]);
+
   React.useEffect(() => {
     async function getEvents() {
       try {
@@ -30,8 +50,7 @@ const Home = ({ navigation }) => {
         tron.log('user', user)
 
         const eventList = await api.get(`/events/find-by-study-field/${user.course.studyFieldId}`);
-
-        setEvents(eventList.sort((a, b) => new Date(a.event.eventDate) - new Date(b.event.eventDate)));
+        setEvents(eventList);
         setEventsLoading(false);
       } catch (e) {
         tron.log('[ERROR getEvents()]: ', e);
