@@ -60,12 +60,16 @@ const Home = ({ navigation }) => {
     getEvents();
   }, []);
 
+  const goToEvent = (data) => {
+    return navigation.navigate('Event', { data });
+  }
+
   return (
     <SafeAreaView>
       {!eventsLoading &&
         <ScrollView>
           <List.Section style={{ paddingTop: 15, paddingBottom: 15 }}>
-            {events.map((event, i) => <EventCard key={i} data={event} />)}
+            {events.map((event, i) => <EventCard key={i} data={event} goToEvent={goToEvent} />)}
           </List.Section>
         </ScrollView>
       }

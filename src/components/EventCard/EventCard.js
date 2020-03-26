@@ -22,7 +22,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { formatDateToDayMonth } from '../../utils/date';
 
-export default ({ data }) => {
+export default ({ data, goToEvent }) => {
   const event = data.event;
   const local = data.event.local;
   const course = data.course;
@@ -31,7 +31,7 @@ export default ({ data }) => {
     <View style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 7, paddingBottom: 7 }}>
       <Card style={{ borderRadius: 25 }}>
         <TouchableRipple
-          onPress={() => tron.log('Pressed')}
+          onPress={() => goToEvent(data)}
           rippleColor="rgba(0, 0, 0, .32)"
           borderless
         >

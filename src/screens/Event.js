@@ -1,3 +1,5 @@
+import tron from 'reactotron-react-native';
+
 import React from 'react';
 
 import {
@@ -6,10 +8,21 @@ import {
   Button
 } from 'react-native';
 
-export default () => {
+import { capitalizeWords } from '../utils/string';
+
+export default ({ route, navigation }) => {
+  const { event, local, course } = route.params.data;
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      title: capitalizeWords(event.name),
+      headerTitleContainerStyle: { width: '70%' }
+    });
+  }, [navigation]);
+
   return (
     <View>
-      <Text>Event</Text>
+      <Text>{event.name}</Text>
     </View>
   );
 }

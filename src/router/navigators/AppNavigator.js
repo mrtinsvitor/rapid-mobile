@@ -34,7 +34,7 @@ const HomeStackScreen = () => (
     headerTitleStyle: {
       fontFamily: 'Raleway-Bold',
     },
-    headerTitleAlign: "center"
+    headerTitleAlign: "center",
   }}
   >
     <HomeStack.Screen name="Eventos" component={Home} />
