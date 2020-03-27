@@ -6,7 +6,8 @@ import {
   View,
   Text,
   SafeAreaView,
-  ScrollView
+  ScrollView,
+  Image
 } from 'react-native';
 
 import {
@@ -16,6 +17,7 @@ import {
   Button
 } from 'react-native-paper';
 
+import { eventPlaceholder } from '../assets/img/login-background2.jpeg';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import api from '../utils/api';
