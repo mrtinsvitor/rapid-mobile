@@ -1,3 +1,4 @@
+import tron from 'reactotron-react-native';
 import React from "react";
 import {
   IconButton
@@ -25,22 +26,30 @@ export default () => {
 };
 
 const HomeStack = createStackNavigator();
-const HomeStackScreen = () => (
-  <HomeStack.Navigator initialRouteName="Eventos" screenOptions={{
-    headerStyle: {
-      backgroundColor: '#007bff',
-    },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontFamily: 'Raleway-Bold',
-    },
-    headerTitleAlign: "center",
-  }}
-  >
-    <HomeStack.Screen name="Eventos" component={Home} />
-    <HomeStack.Screen name="Event" component={Event} />
-  </HomeStack.Navigator>
-);
+const HomeStackScreen = ({ navigation, route }) => {
+  if (route.state && route.state.index === 1) {
+    navigation.setOptions({ tabBarVisible: false });
+  } else {
+    navigation.setOptions({ tabBarVisible: true });
+  }
+
+  return (
+    <HomeStack.Navigator initialRouteName="Eventos" screenOptions={{
+      headerStyle: {
+        backgroundColor: '#007bff',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontFamily: 'Raleway-Bold',
+      },
+      headerTitleAlign: "center",
+    }}
+    >
+      <HomeStack.Screen name="Eventos" component={Home} />
+      <HomeStack.Screen name="Event" component={Event} />
+    </HomeStack.Navigator>
+  );
+}
 
 const ProfileStack = createStackNavigator();
 const ProfileStackScreen = () => (

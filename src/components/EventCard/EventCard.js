@@ -45,9 +45,9 @@ export default ({ data, goToEvent }) => {
               </Title>
 
               <View style={{ flexDirection: 'row', paddingLeft: 15, marginBottom: 5 }}>
-                <Badge style={{ backgroundColor: '#0063CC', fontFamily: 'Raleway-Regular', fontSize: 12 }} size={22}>{course.studyField.name}</Badge>
+                <Badge style={{ backgroundColor: '#007bff', fontFamily: 'Raleway-Regular', fontSize: 12, }} size={22}>{course.studyField.name}</Badge>
                 <View style={{ marginLeft: 15 }}>
-                  <Text style={{ fontFamily: 'Raleway-Regular', fontSize: 16 }}>de {event.openingHour.substring(0, event.openingHour.length - 3)} às {event.endingHour.substring(0, event.endingHour.length - 3)}</Text>
+                  <Text style={{ fontFamily: 'Raleway-Regular', fontSize: 16, }}>de {event.openingHour.substring(0, event.openingHour.length - 3)} às {event.endingHour.substring(0, event.endingHour.length - 3)}</Text>
                 </View>
               </View>
 
@@ -58,14 +58,14 @@ export default ({ data, goToEvent }) => {
 
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignContent: 'center', paddingBottom: 10, paddingTop: 10, paddingLeft: 15, paddingRight: 15 }}>
               <View style={{ flexDirection: 'row' }}>
-                <Icon name="calendar" size={20} />
+                <Icon name="calendar" size={20} color="#007bff" />
                 <Text style={{ fontFamily: 'Raleway-Regular', paddingLeft: 2, top: 3 }}>
                   {formatDateToDayMonth(event.eventDate)}
                 </Text>
               </View>
 
               <View style={{ flexDirection: 'row', marginLeft: 25, width: '80%' }}>
-                <Icon name="map-marker" size={20} />
+                <Icon name="map-marker" size={20} color="#007bff" />
                 <Text style={{ fontFamily: 'Raleway-Regular', paddingLeft: 2, top: 3, }} numberOfLines={2} adjustsFontSizeToFit>{local.name}</Text>
               </View>
             </View>
