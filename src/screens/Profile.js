@@ -1,16 +1,20 @@
-
 import React from 'react';
 
 import {
   View,
-  Text,
-  Button
 } from 'react-native';
+import {
+  Button,
+} from 'react-native-paper';
+
+import AuthContext from '../context/AuthContext';
 
 export default ({ }) => {
+  const { signOut } = React.useContext(AuthContext);
+
   return (
     <View>
-      <Text>Profile</Text>
+      <Button mode="contained" onPress={signOut}>Desconectar</Button>
     </View>
   );
 }
