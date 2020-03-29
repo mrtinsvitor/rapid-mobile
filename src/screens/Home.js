@@ -3,18 +3,17 @@ import tron from 'reactotron-react-native';
 import React from 'react';
 
 import {
-  View,
-  Text,
   SafeAreaView,
   ScrollView,
-  Image
+  View,
 } from 'react-native';
 
 import {
   List,
   TouchableRipple,
   IconButton,
-  Button
+  Button,
+  ActivityIndicator
 } from 'react-native-paper';
 
 import { eventPlaceholder } from '../assets/img/login-background2.jpeg';
@@ -51,7 +50,9 @@ const Home = ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
+      <ActivityIndicator animating={eventsLoading} style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }} hidesWhenStopped />
+
       {!eventsLoading &&
         <ScrollView>
           <List.Section style={{ paddingTop: 15, paddingBottom: 15 }}>
