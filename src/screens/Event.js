@@ -109,14 +109,14 @@ export default ({ route, navigation }) => {
 
       <View style={styles.bottomBar}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-          <View style={{   }}>
+          <View style={{}}>
             <Text style={{ color: '#000', fontFamily: 'Roboto-Medium', fontSize: 16, textTransform: 'uppercase' }}>{event.enrollmentValue > 0 ? `R$ ${event.enrollmentValue}` : 'Grátis'}</Text>
           </View>
 
           <View style={{}}>
             <Button
               style={{ backgroundColor: '#007bff', borderRadius: 0 }}
-              labelStyle={{fontFamily: 'Roboto-Medium', fontSize: 14}}
+              labelStyle={{ fontFamily: 'Roboto-Medium', fontSize: 14 }}
               icon="check-bold"
               uppercase
               mode="contained"

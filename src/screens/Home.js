@@ -29,22 +29,6 @@ const Home = ({ navigation }) => {
   const [events, setEvents] = React.useState(null);
   const [eventsLoading, setEventsLoading] = React.useState(true);
 
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableRipple>
-          <IconButton
-            icon="calendar-search"
-            color='#fff'
-            size={24}
-            style={{ marginRight: 20 }}
-            onPress={() => tron.log('click')}
-          />
-        </TouchableRipple>
-      ),
-    });
-  }, [navigation]);
-
   React.useEffect(() => {
     async function getEvents() {
       try {
