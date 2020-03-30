@@ -10,7 +10,7 @@ import {
 export default ({ navigation }) => {
   return (
     <View>
-      <Text>Pesquisa</Text>
+      <Text>Configurações</Text>
     </View>
   );
 }

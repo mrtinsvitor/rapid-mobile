@@ -1,0 +1,1 @@
+export const getLastRouteByName = (route, name) => route.state.routes[route.state.routes.length - 1].name === name;
