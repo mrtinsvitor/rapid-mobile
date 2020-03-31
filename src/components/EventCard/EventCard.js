@@ -56,7 +56,7 @@ export default ({ data, goToEvent }) => {
               </View>
             </View>
 
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignContent: 'center', paddingBottom: 10, paddingTop: 10, paddingLeft: 15, paddingRight: 15 }}>
+            <View style={{ flexDirection: 'column', justifyContent: 'center', alignContent: 'center', paddingBottom: 10, paddingTop: 10, paddingLeft: 22, paddingRight: 22 }}>
               <View style={{ flexDirection: 'row' }}>
                 <Icon name="calendar" size={20} color="#007bff" />
                 <Text style={{ fontFamily: 'Raleway-Regular', paddingLeft: 2, top: 3 }}>
@@ -64,7 +64,7 @@ export default ({ data, goToEvent }) => {
                 </Text>
               </View>
 
-              <View style={{ flexDirection: 'row', marginLeft: 25, width: '80%' }}>
+              <View style={{ flexDirection: 'row', width: '80%', paddingTop: 3 }}>
                 <Icon name="map-marker" size={20} color="#007bff" />
                 <Text style={{ fontFamily: 'Raleway-Regular', paddingLeft: 2, top: 3, }} numberOfLines={2} adjustsFontSizeToFit>{local.name}</Text>
               </View>
