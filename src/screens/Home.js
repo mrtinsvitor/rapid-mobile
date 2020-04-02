@@ -13,7 +13,8 @@ import {
   TouchableRipple,
   IconButton,
   Button,
-  ActivityIndicator
+  ActivityIndicator,
+  Text
 } from 'react-native-paper';
 
 import { eventPlaceholder } from '../assets/img/login-background2.jpeg';
@@ -26,6 +27,7 @@ import EventCard from '../components/EventCard/EventCard';
 
 const Home = ({ navigation }) => {
   const [events, setEvents] = React.useState(null);
+  const [error, setError] = React.useState(null);
   const [eventsLoading, setEventsLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -34,11 +36,12 @@ const Home = ({ navigation }) => {
         const user = await storage.getItem('@user');
         tron.log('user', user)
 
-        const eventList = await api.get(`/events/find-by-study-field/${user.course.studyFieldId}`);
+        const eventList = await api.get(`/events/find-by-field/${user.course.studyFieldId}/up-next`);
         setEvents(eventList);
         setEventsLoading(false);
       } catch (e) {
         tron.log('[ERROR getEvents()]: ', e);
+        setError(true);
       }
     }
 
@@ -53,7 +56,13 @@ const Home = ({ navigation }) => {
     <SafeAreaView style={{ flex: 1 }}>
       <ActivityIndicator animating={eventsLoading} style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }} hidesWhenStopped />
 
-      {!eventsLoading &&
+      {error && <Text style={{ textAlign: 'center', alignSelf: 'center', flex: 1, fontSize: 18, fontFamily: 'Robot-Regular' }}>Ocorreu um erro</Text>}
+
+      {!eventsLoading && !events.lenght &&
+        <Text style={{ textAlign: 'center', alignSelf: 'center', flex: 1, fontSize: 18, fontFamily: 'Robot-Regular' }}>Não existem eventos</Text>
+      }
+
+      {!eventsLoading && events.lenght &&
         <ScrollView>
           <List.Section style={{ paddingTop: 15, paddingBottom: 15 }}>
             {events.map((event, i) => <EventCard key={i} data={event} goToEvent={goToEvent} />)}

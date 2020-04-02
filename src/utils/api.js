@@ -1,4 +1,4 @@
-// import tron from 'reactotron-react-native';
+import tron from 'reactotron-react-native';
 import axios from 'axios';
 
 import { baseURL } from '../config/apiConfig';
@@ -38,5 +38,5 @@ const request = ({ method, url, data, headers }) => {
 }
 
 const handleError = (err, ) => {
-  console.log('[ERROR]: ' + err);
+  tron.log('[ERROR]: ' + err);
 }
