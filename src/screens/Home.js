@@ -34,7 +34,6 @@ const Home = ({ navigation }) => {
     async function getEvents() {
       try {
         const user = await storage.getItem('@user');
-        tron.log('user', user)
 
         const eventList = await api.get(`/events/find-by-field/${user.course.studyFieldId}/up-next`);
         setEvents(eventList);
@@ -56,16 +55,16 @@ const Home = ({ navigation }) => {
     <SafeAreaView style={{ flex: 1 }}>
       <ActivityIndicator animating={eventsLoading} style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }} hidesWhenStopped />
 
-      {error && <Text style={{ textAlign: 'center', alignSelf: 'center', flex: 1, fontSize: 18, fontFamily: 'Robot-Regular' }}>Ocorreu um erro</Text>}
+      {error && <Text style={{ textAlign: 'center', alignSelf: 'center', flex: 1, fontSize: 18, fontFamily: 'Roboto-Regular' }}>Ocorreu um erro</Text>}
 
-      {!eventsLoading && !events.lenght &&
-        <Text style={{ textAlign: 'center', alignSelf: 'center', flex: 1, fontSize: 18, fontFamily: 'Robot-Regular' }}>Não existem eventos</Text>
+      {!eventsLoading && !events.length &&
+        <Text style={{ textAlign: 'center', alignSelf: 'center', flex: 1, fontSize: 18, fontFamily: 'Roboto-Regular' }}>Não existem eventos</Text>
       }
 
-      {!eventsLoading && events.lenght &&
+      {!eventsLoading && events.length > 0 &&
         <ScrollView>
           <List.Section style={{ paddingTop: 15, paddingBottom: 15 }}>
-            {events.map((event, i) => <EventCard key={i} data={event} goToEvent={goToEvent} />)}
+            {events.map((event, i) => <EventCard key={i} event={event} goToEvent={goToEvent} />)}
           </List.Section>
         </ScrollView>
       }

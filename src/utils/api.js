@@ -28,15 +28,11 @@ const request = ({ method, url, data, headers }) => {
     return instance.request({
       method, url, params: data, headers
     }).then(res => res.data)
-      .catch(err => handleError(err));
+      .catch(err => { throw err.response.data });
   }
 
   return instance.request({
     method, url, data, headers
   }).then(res => res.data)
-    .catch(err => handleError(err))
-}
-
-const handleError = (err, ) => {
-  tron.log('[ERROR]: ' + err);
+    .catch(err => { throw err.response.data });
 }

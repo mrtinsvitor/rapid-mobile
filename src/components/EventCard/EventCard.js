@@ -7,31 +7,25 @@ import {
 } from 'react-native';
 
 import {
-  List,
   Card,
-  Button,
   Title,
   Paragraph,
   Badge,
   Text,
-  Chip,
-  Divider,
   TouchableRipple
 } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { formatDateToDayMonth } from '../../utils/date';
 
-export default ({ data, goToEvent }) => {
-  const event = data.event;
-  const local = data.event.local;
-  const course = data.course;
+export default ({ event, goToEvent }) => {
+  const { studyField, local } = event;
 
   return (
     <View style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 7, paddingBottom: 7 }}>
       <Card style={{ borderRadius: 25 }}>
         <TouchableRipple
-          onPress={() => goToEvent(data)}
+          onPress={() => goToEvent(event)}
           rippleColor="rgba(0, 0, 0, .32)"
           borderless
         >
@@ -45,7 +39,7 @@ export default ({ data, goToEvent }) => {
               </Title>
 
               <View style={{ flexDirection: 'row', paddingLeft: 15, marginBottom: 5 }}>
-                <Badge style={{ backgroundColor: '#007bff', fontFamily: 'Raleway-Regular', fontSize: 12, }} size={22}>{course.studyField.name}</Badge>
+                <Badge style={{ backgroundColor: '#007bff', fontFamily: 'Raleway-Regular', fontSize: 12, }} size={22}>{studyField.name}</Badge>
                 <View style={{ marginLeft: 15 }}>
                   <Text style={{ fontFamily: 'Raleway-Regular', fontSize: 16, }}>de {event.openingHour.substring(0, event.openingHour.length - 3)} às {event.endingHour.substring(0, event.endingHour.length - 3)}</Text>
                 </View>
