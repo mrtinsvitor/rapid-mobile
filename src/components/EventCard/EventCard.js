@@ -3,7 +3,8 @@ import tron from 'reactotron-react-native';
 import React from 'react';
 
 import {
-  View
+  View,
+  TouchableHighlight
 } from 'react-native';
 
 import {
@@ -12,13 +13,14 @@ import {
   Paragraph,
   Badge,
   Text,
-  TouchableRipple
+  TouchableRipple,
+  IconButton
 } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { formatDateToDayMonth } from '../../utils/date';
 
-export default ({ event, goToEvent }) => {
+export default ({ event, presenceCheck, goToEvent }) => {
   const { studyField, local } = event;
 
   return (
@@ -50,18 +52,28 @@ export default ({ event, goToEvent }) => {
               </View>
             </View>
 
-            <View style={{ flexDirection: 'column', justifyContent: 'center', alignContent: 'center', paddingBottom: 10, paddingTop: 10, paddingLeft: 22, paddingRight: 22 }}>
-              <View style={{ flexDirection: 'row' }}>
-                <Icon name="calendar" size={20} color="#007bff" />
-                <Text style={{ fontFamily: 'Raleway-Regular', paddingLeft: 2, top: 3 }}>
-                  {formatDateToDayMonth(event.eventDate)}
-                </Text>
+
+            <View style={{ flexDirection: 'row', alignContent: 'center', justifyContent: 'space-between' }}>
+              <View style={{ flexDirection: 'column', justifyContent: 'center', alignContent: 'center', paddingBottom: 10, paddingTop: 10, paddingLeft: 22, paddingRight: 22, width: '80%', }}>
+                <View style={{ flexDirection: 'row' }}>
+                  <Icon name="calendar" size={20} color="#007bff" />
+                  <Text style={{ fontFamily: 'Raleway-Regular', paddingLeft: 2, top: 3 }}>
+                    {formatDateToDayMonth(event.eventDate)}
+                  </Text>
+                </View>
+
+                <View style={{ flexDirection: 'row', width: '80%', paddingTop: 3 }}>
+                  <Icon name="map-marker" size={20} color="#007bff" />
+                  <Text style={{ fontFamily: 'Raleway-Regular', paddingLeft: 2, top: 3, }} numberOfLines={2} adjustsFontSizeToFit>{local.name}</Text>
+                </View>
               </View>
 
-              <View style={{ flexDirection: 'row', width: '80%', paddingTop: 3 }}>
-                <Icon name="map-marker" size={20} color="#007bff" />
-                <Text style={{ fontFamily: 'Raleway-Regular', paddingLeft: 2, top: 3, }} numberOfLines={2} adjustsFontSizeToFit>{local.name}</Text>
-              </View>
+
+              {presenceCheck &&
+                <View>
+                  <IconButton icon="qrcode-scan" color="#17c671" size={40} onPress={() => tron.log('press')} borderless />
+                </View>
+              }
             </View>
 
           </View>
