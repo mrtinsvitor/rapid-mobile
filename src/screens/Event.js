@@ -37,6 +37,7 @@ import { formatDateToDayMonth } from '../utils/date';
 
 export default ({ route, navigation }) => {
   const event = route.params.data;
+  const presenceCheck = route.params.presenceCheck;
   const { studyField, local } = event;
 
   const [isLoading, setIsLoading] = React.useState(true);
@@ -47,7 +48,19 @@ export default ({ route, navigation }) => {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       title: capitalizeWords(event.name),
-      headerTitleContainerStyle: { width: '70%' },
+      headerTitleContainerStyle: { width: '70%', paddingRight: 5 },
+      headerRight: presenceCheck ? () => (
+        <Button
+          onPress={() => tron.log('press')}
+          style={{ paddingLeft: 10, paddingRight: 5, paddingTop: 5, paddingBottom: 5 }}
+        >
+          <Icon
+            name="qrcode"
+            size={32}
+            style={{ color: '#fff' }}
+          />
+        </Button>
+      ) : null
     });
   }, [navigation]);
 

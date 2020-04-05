@@ -48,7 +48,7 @@ const Home = ({ navigation }) => {
   }, []);
 
   const goToEvent = (data) => {
-    return navigation.navigate('Event', { data });
+    return navigation.navigate('Evento', { data });
   }
 
   return (

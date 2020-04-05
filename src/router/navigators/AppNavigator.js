@@ -1,9 +1,11 @@
 import React from "react";
+import tron from 'reactotron-react-native';
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import HeaderBar from '../../components/HeaderBar';
+import HeaderRightButton from '../../components/HeaderBar/HeaderRightButton';
 import BottomTabBar from '../../components/BottomTabBar';
 
 import Home from '../../screens/Home';
@@ -16,31 +18,32 @@ import Settings from '../../screens/Settings';
 import { getLastRouteByName } from '../../utils/navigation';
 
 const Tabs = createBottomTabNavigator();
-export default ({ }) => {
-  return (
-    <Tabs.Navigator initialRouteName="Home" tabBar={props => <BottomTabBar {...props} />}>
-      <Tabs.Screen name="Home" component={HomeStackScreen} options={{ tabBarIcon: 'home', }} />
-      <Tabs.Screen name="Pesquisa" component={SearchStackScreen} options={{ tabBarIcon: 'search', }} />
-      <Tabs.Screen name="Meus Eventos" component={MyEventsStackScreen} options={{ tabBarIcon: 'bookmark' }} />
-      <Tabs.Screen name="Configurações" component={SettingsStackScreen} options={{ tabBarIcon: 'settings' }} />
-    </Tabs.Navigator>
-  );
-};
+export default ({ }) => (
+  <Tabs.Navigator initialRouteName="Home" tabBar={props => <BottomTabBar {...props} />}>
+    <Tabs.Screen name="Home" component={HomeStackScreen} options={{ tabBarIcon: 'home', }} />
+    <Tabs.Screen name="Pesquisa" component={SearchStackScreen} options={{ tabBarIcon: 'search', }} />
+    <Tabs.Screen name="Meus Eventos" component={MyEventsStackScreen} options={{ tabBarIcon: 'bookmark' }} />
+    <Tabs.Screen name="Configurações" component={SettingsStackScreen} options={{ tabBarIcon: 'settings' }} />
+  </Tabs.Navigator>
+);
 
 const HomeStack = createStackNavigator();
 const HomeStackScreen = ({ navigation, route }) => {
-  if (route.state && getLastRouteByName(route, 'Event')) {
+  if (route.state && getLastRouteByName(route, 'Evento')) {
     navigation.setOptions({ tabBarVisible: false });
   } else {
     navigation.setOptions({ tabBarVisible: true });
   }
 
   return (
-    <HomeStack.Navigator initialRouteName="Eventos" screenOptions={HeaderBar(navigation)}>
-      <HomeStack.Screen name="Eventos" component={Home} />
-      <HomeStack.Screen name="Event" component={Event} options={{ tabBarVisible: false }} />
-      <HomeStack.Screen name="Profile" component={Profile} />
-    </HomeStack.Navigator>
+    <HomeStack.Navigator
+      initialRouteName="Home"
+      screenOptions={HeaderBar({ rightButton: () => navigation.navigate('Perfil'), rightIcon: 'user' })}
+    >
+      <HomeStack.Screen name="Home" component={Home} options={{ title: 'Eventos' }} />
+      <HomeStack.Screen name="Evento" component={Event} />
+      <HomeStack.Screen name="Perfil" component={Profile} />
+    </HomeStack.Navigator >
   );
 }
 
@@ -52,11 +55,20 @@ const SearchStackScreen = ({ navigation }) => (
 );
 
 const MyEventsStack = createStackNavigator();
-const MyEventsStackScreen = ({ navigation }) => (
-  <MyEventsStack.Navigator initialRouteName="Meus Eventos" screenOptions={HeaderBar(navigation)}>
-    <MyEventsStack.Screen name="Meus Eventos" component={MyEvents} />
-  </MyEventsStack.Navigator>
-);
+const MyEventsStackScreen = ({ navigation, route }) => {
+  if (route.state && getLastRouteByName(route, 'Meu Evento')) {
+    navigation.setOptions({ tabBarVisible: false });
+  } else {
+    navigation.setOptions({ tabBarVisible: true });
+  }
+
+  return (
+    <MyEventsStack.Navigator initialRouteName="Meus Eventos" screenOptions={HeaderBar({ rightButton: () => navigation.navigate('Perfil'), rightIcon: 'user' })}>
+      <MyEventsStack.Screen name="Meus Eventos" component={MyEvents} />
+      <MyEventsStack.Screen name="Meu Evento" component={Event} />
+    </MyEventsStack.Navigator>
+  );
+}
 
 const SettingsStack = createStackNavigator();
 const SettingsStackScreen = ({ navigation }) => (
