@@ -60,7 +60,7 @@ export default ({ navigation }) => {
   }, [activeEnrollments]);
 
   const goToEvent = (data) => {
-    return navigation.navigate('Meu Evento', { data, presenceCheck: true });
+    return navigation.navigate('Meu Evento', { data });
   }
 
   return (

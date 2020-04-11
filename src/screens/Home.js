@@ -5,20 +5,13 @@ import React from 'react';
 import {
   SafeAreaView,
   ScrollView,
-  View,
 } from 'react-native';
 
 import {
   List,
-  TouchableRipple,
-  IconButton,
-  Button,
   ActivityIndicator,
   Text
 } from 'react-native-paper';
-
-import { eventPlaceholder } from '../assets/img/login-background2.jpeg';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import api from '../utils/api';
 import storage from '../utils/storage';
@@ -35,8 +28,12 @@ const Home = ({ navigation }) => {
       try {
         const user = await storage.getItem('@user');
 
-        const eventList = await api.get(`/events/find-by-field/${user.course.studyFieldId}/up-next`);
-        setEvents(eventList);
+        const eventList = await api.get(`/events/find-by-field/${user.course.studyFieldId}/student-enrollment/${user.id}`);
+        const sortedEventList = await eventList
+          .filter(el => new Date(el.eventDate) >= new Date())
+          .sort((a, b) => new Date(a.eventDate) - new Date(b.eventDate));
+
+        setEvents(sortedEventList);
         setEventsLoading(false);
       } catch (e) {
         tron.log('[ERROR getEvents()]: ', e);
@@ -64,7 +61,7 @@ const Home = ({ navigation }) => {
       {!eventsLoading && events.length > 0 &&
         <ScrollView>
           <List.Section style={{ paddingTop: 15, paddingBottom: 15 }}>
-            {events.map((event, i) => <EventCard key={i} event={event} goToEvent={goToEvent} />)}
+            {events.map((event, i) => <EventCard key={i} event={event} goToEvent={goToEvent} presenceCheck={event.studentEventEnrollment ? true : false} />)}
           </List.Section>
         </ScrollView>
       }

@@ -5,14 +5,14 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import HeaderBar from '../../components/HeaderBar';
-import HeaderRightButton from '../../components/HeaderBar/HeaderRightButton';
 import BottomTabBar from '../../components/BottomTabBar';
 
 import Home from '../../screens/Home';
-import Profile from '../../screens/Profile';
-import Event from '../../screens/Event';
-import Search from '../../screens/Search';
 import MyEvents from '../../screens/MyEvents';
+import Event from '../../screens/Event';
+import QRCode from '../../screens/QRCode';
+import Profile from '../../screens/Profile';
+import Search from '../../screens/Search';
 import Settings from '../../screens/Settings';
 
 import { getLastRouteByName } from '../../utils/navigation';
@@ -36,23 +36,14 @@ const HomeStackScreen = ({ navigation, route }) => {
   }
 
   return (
-    <HomeStack.Navigator
-      initialRouteName="Home"
-      screenOptions={HeaderBar({ rightButton: () => navigation.navigate('Perfil'), rightIcon: 'user' })}
-    >
-      <HomeStack.Screen name="Home" component={Home} options={{ title: 'Eventos' }} />
+    <HomeStack.Navigator screenOptions={HeaderBar(navigation, route, { rightButton: () => navigation.navigate('Perfil'), rightIcon: 'user' })}>
+      <HomeStack.Screen name="Eventos" component={Home} options={{ title: 'Eventos' }} />
       <HomeStack.Screen name="Evento" component={Event} />
       <HomeStack.Screen name="Perfil" component={Profile} />
+      <HomeStack.Screen name="QRCode" component={QRCode} />
     </HomeStack.Navigator >
   );
 }
-
-const SearchStack = createStackNavigator();
-const SearchStackScreen = ({ navigation }) => (
-  <SearchStack.Navigator initialRouteName="Pesquisa" screenOptions={HeaderBar(navigation)}>
-    <SearchStack.Screen name="Pesquisa" component={Search} />
-  </SearchStack.Navigator>
-);
 
 const MyEventsStack = createStackNavigator();
 const MyEventsStackScreen = ({ navigation, route }) => {
@@ -63,16 +54,24 @@ const MyEventsStackScreen = ({ navigation, route }) => {
   }
 
   return (
-    <MyEventsStack.Navigator initialRouteName="Meus Eventos" screenOptions={HeaderBar({ rightButton: () => navigation.navigate('Perfil'), rightIcon: 'user' })}>
+    <MyEventsStack.Navigator screenOptions={HeaderBar(navigation, route, { rightButton: () => navigation.navigate('Perfil'), rightIcon: 'user' })}>
       <MyEventsStack.Screen name="Meus Eventos" component={MyEvents} />
       <MyEventsStack.Screen name="Meu Evento" component={Event} />
+      <MyEventsStack.Screen name="QRCode" component={QRCode} />
     </MyEventsStack.Navigator>
   );
 }
 
+const SearchStack = createStackNavigator();
+const SearchStackScreen = ({ navigation, route }) => (
+  <SearchStack.Navigator initialRouteName="Pesquisa" screenOptions={HeaderBar(navigation, route)}>
+    <SearchStack.Screen name="Pesquisa" component={Search} />
+  </SearchStack.Navigator>
+);
+
 const SettingsStack = createStackNavigator();
-const SettingsStackScreen = ({ navigation }) => (
-  <SettingsStack.Navigator initialRouteName="Configurações" screenOptions={HeaderBar(navigation)}>
+const SettingsStackScreen = ({ navigation, route }) => (
+  <SettingsStack.Navigator initialRouteName="Configurações" screenOptions={HeaderBar(navigation, route)}>
     <SettingsStack.Screen name="Configurações" component={Settings} />
   </SettingsStack.Navigator>
 );

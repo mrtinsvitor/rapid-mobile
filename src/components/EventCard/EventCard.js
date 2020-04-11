@@ -1,6 +1,7 @@
 import tron from 'reactotron-react-native';
 
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 import {
   View,
@@ -21,6 +22,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { formatDateToDayMonth } from '../../utils/date';
 
 export default ({ event, presenceCheck, goToEvent }) => {
+  const navigation = useNavigation();
   const { studyField, local } = event;
 
   return (
@@ -71,7 +73,7 @@ export default ({ event, presenceCheck, goToEvent }) => {
 
               {presenceCheck &&
                 <View>
-                  <IconButton icon="qrcode-scan" color="#17c671" size={40} onPress={() => tron.log('press')} borderless />
+                  <IconButton icon="qrcode-scan" color="#17c671" size={40} onPress={() => navigation.navigate('QRCode', { event })} borderless />
                 </View>
               }
             </View>
