@@ -51,7 +51,7 @@ export default ({ route, navigation }) => {
       headerTitleContainerStyle: { width: '70%', paddingRight: 5 },
       headerRight: isEnrolled ? () => (
         <Button
-          onPress={() => navigation.navigate('QRCode')}
+          onPress={() => navigation.navigate('QRCode', { event })}
           style={{ paddingLeft: 10, paddingRight: 5, paddingTop: 5, paddingBottom: 5 }}
         >
           <Icon

@@ -22,7 +22,9 @@ export default ({ navigation, route }) => {
   const event = route.params.event;
 
   React.useLayoutEffect(() => {
-    headerRight: null
+    navigation.setOptions({
+      title: 'Ler QR Code'
+    })
   }, []);
 
   const onSuccess = async (e) => {
@@ -37,18 +39,26 @@ export default ({ navigation, route }) => {
         type: 'success',
         duration: 2500,
       });
+
+      return setTimeout(function () { return navigation.goBack(); }, 2800)
     } catch (err) {
       tron.log('[Error Reading QR Code', err);
+
       if (err.code === '002') {
         showMessage({
           message: err.error,
           type: 'warning',
           duration: 2500,
         });
-      }
 
-    } finally {
-      return setTimeout(function () { return navigation.goBack(); }, 2800)
+        return setTimeout(function () { return navigation.goBack(); }, 2800)
+      } else {
+        return showMessage({
+          message: 'Ocorreu um erro interno. Tente novamente.',
+          type: 'danger',
+          duration: 2500,
+        });
+      }
     }
   }
 
@@ -61,7 +71,7 @@ export default ({ navigation, route }) => {
         cameraStyle={{ height: Dimensions.get('window').height, width: Dimensions.get('window').width, zIndex: 1 }}
         topContent={
           <View style={{ zIndex: 2, paddingTop: 15, width: '100%' }}>
-            <View style={{right: 0, top: 15, position: 'absolute'}}>
+            <View style={{ right: 0, top: 15, position: 'absolute' }}>
               <IconButton icon="flash" color="#868e96" size={34} style={{ paddingRight: 10 }} onPress={() => tron.log('flash on')} />
             </View>
 
