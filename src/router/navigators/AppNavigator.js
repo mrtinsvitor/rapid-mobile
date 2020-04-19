@@ -4,14 +4,6 @@ import tron from 'reactotron-react-native';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import {
-  Button,
-} from 'react-native-paper';
-
-
-import FeatherIcon from 'react-native-vector-icons/Feather';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-
 import HeaderBar from '../../components/HeaderBar';
 import BottomTabBar from '../../components/BottomTabBar';
 
@@ -45,26 +37,7 @@ const HomeStackScreen = ({ navigation, route }) => {
 
   return (
     <HomeStack.Navigator screenOptions={HeaderBar(navigation, route)}>
-      <HomeStack.Screen name="Eventos" component={Home} options={{
-        title: 'Eventos',
-        headerRight: () => (
-          <Button
-            onPress={() => navigation.navigate('Perfil')}
-            style={{
-              paddingLeft: 10,
-              paddingRight: 10,
-              paddingTop: 5,
-              paddingBottom: 5
-            }}
-          >
-            <FeatherIcon
-              name='user'
-              size={24}
-              style={{ color: '#fff' }}
-            />
-          </Button>
-        )
-      }} />
+      <HomeStack.Screen name="Eventos" component={Home} />
       <HomeStack.Screen name="Evento" component={Event} />
       <HomeStack.Screen name="Perfil" component={Profile} />
       <HomeStack.Screen name="QRCode" component={QRCode} />

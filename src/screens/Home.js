@@ -11,8 +11,11 @@ import {
 import {
   List,
   ActivityIndicator,
-  Text
+  Text,
+  Button
 } from 'react-native-paper';
+
+import FeatherIcon from 'react-native-vector-icons/Feather';
 
 import api from '../utils/api';
 import storage from '../utils/storage';
@@ -22,9 +25,33 @@ import EventCard from '../components/EventCard/EventCard';
 const Home = ({ navigation }) => {
   const [refreshing, setRefreshing] = React.useState(false);
 
+  const [user, setUser] = React.useState(null);
   const [events, setEvents] = React.useState(null);
   const [error, setError] = React.useState(null);
   const [eventsLoading, setEventsLoading] = React.useState(true);
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      title: 'Eventos',
+      headerRight: () => (
+        <Button
+          onPress={() => navigation.navigate('Perfil', { user })}
+          style={{
+            paddingLeft: 10,
+            paddingRight: 10,
+            paddingTop: 5,
+            paddingBottom: 5
+          }}
+        >
+          <FeatherIcon
+            name='user'
+            size={24}
+            style={{ color: '#fff' }}
+          />
+        </Button>
+      )
+    });
+  }, []);
 
   React.useEffect(() => {
     getEvents();
@@ -33,6 +60,7 @@ const Home = ({ navigation }) => {
   const getEvents = async () => {
     try {
       const user = await storage.getItem('@user');
+      setUser(user);
 
       const eventList = await api.get(`/events/find-by-field/${user.course.studyFieldId}/student-enrollment/${user.id}`);
       const sortedEventList = await eventList
