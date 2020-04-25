@@ -5,6 +5,7 @@ import React from 'react';
 import {
   SafeAreaView,
   ScrollView,
+  StyleSheet,
   RefreshControl,
 } from 'react-native';
 
@@ -21,6 +22,7 @@ import api from '../utils/api';
 import storage from '../utils/storage';
 
 import EventCard from '../components/EventCard/EventCard';
+import EventFilters from '../components/EventFilters/EventFilters';
 
 const Home = ({ navigation }) => {
   const [refreshing, setRefreshing] = React.useState(false);
@@ -44,7 +46,7 @@ const Home = ({ navigation }) => {
           }}
         >
           <FeatherIcon
-            name='user'
+            name='sliders'
             size={24}
             style={{ color: '#fff' }}
           />
@@ -89,15 +91,17 @@ const Home = ({ navigation }) => {
     <SafeAreaView style={{ flex: 1 }}>
       <ActivityIndicator animating={eventsLoading} style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }} hidesWhenStopped />
 
-      {error && <Text style={{ textAlign: 'center', alignSelf: 'center', flex: 1, fontSize: 18, fontFamily: 'Roboto-Regular' }}>Ocorreu um erro</Text>}
+      {error && <Text style={styles.errorMsg}>Ocorreu um erro</Text>}
 
       {!eventsLoading && !events.length &&
-        <Text style={{ textAlign: 'center', alignSelf: 'center', flex: 1, fontSize: 18, fontFamily: 'Roboto-Regular' }}>Não existem eventos</Text>
+        <Text tyle={styles.errorMsg}>Não existem eventos</Text>
       }
 
       {!eventsLoading && events.length > 0 &&
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <List.Section style={{ paddingTop: 15, paddingBottom: 15 }}>
+            <Text style={styles.titleEvents}>Eventos na sua área</Text>
+            <EventFilters />
             {events.map((event, i) => <EventCard key={i} event={event} goToEvent={goToEvent} presenceCheck={event.studentEventEnrollment ? true : false} />)}
           </List.Section>
         </ScrollView>
@@ -105,5 +109,24 @@ const Home = ({ navigation }) => {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  errorMsg: {
+    textAlign: 'center',
+    alignSelf: 'center',
+    flex: 1,
+    fontSize: 18,
+    fontFamily: 'Roboto-Regular'
+  },
+  titleEvents: {
+    textAlign: 'left',
+    flex: 1,
+    fontSize: 18,
+    fontFamily: 'Poppins-Medium',
+    paddingLeft: 10,
+    paddingRight: 10,
+    color: '#212529'
+  }
+});
 
 export default Home;
