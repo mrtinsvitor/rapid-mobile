@@ -23,7 +23,7 @@ export default ({ }) => (
     <Tabs.Screen name="Home" component={HomeStackScreen} options={{ tabBarIcon: 'home', }} />
     <Tabs.Screen name="Pesquisa" component={SearchStackScreen} options={{ tabBarIcon: 'search', }} />
     <Tabs.Screen name="Meus Eventos" component={MyEventsStackScreen} options={{ tabBarIcon: 'bookmark' }} />
-    <Tabs.Screen name="Configurações" component={SettingsStackScreen} options={{ tabBarIcon: 'settings' }} />
+    <Tabs.Screen name="Perfil" component={ProfileStackScreen} options={{ tabBarIcon: 'user' }} />
   </Tabs.Navigator>
 );
 
@@ -39,7 +39,6 @@ const HomeStackScreen = ({ navigation, route }) => {
     <HomeStack.Navigator screenOptions={HeaderBar(navigation, route)}>
       <HomeStack.Screen name="Eventos" component={Home} />
       <HomeStack.Screen name="Evento" component={Event} />
-      <HomeStack.Screen name="Perfil" component={Profile} />
       <HomeStack.Screen name="QRCode" component={QRCode} />
     </HomeStack.Navigator >
   );
@@ -69,9 +68,9 @@ const SearchStackScreen = ({ navigation, route }) => (
   </SearchStack.Navigator>
 );
 
-const SettingsStack = createStackNavigator();
-const SettingsStackScreen = ({ navigation, route }) => (
-  <SettingsStack.Navigator initialRouteName="Configurações" screenOptions={HeaderBar(navigation, route)}>
-    <SettingsStack.Screen name="Configurações" component={Settings} />
-  </SettingsStack.Navigator>
+const ProfileStack = createStackNavigator();
+const ProfileStackScreen = ({ navigation, route }) => (
+  <ProfileStack.Navigator initialRouteName="Perfil" screenOptions={HeaderBar(navigation, route)}>
+    <ProfileStack.Screen name="Perfil" component={Profile} />
+  </ProfileStack.Navigator>
 );
