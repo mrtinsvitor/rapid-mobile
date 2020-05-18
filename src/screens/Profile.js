@@ -41,6 +41,23 @@ export default ({ route }) => {
         elevation: 0,
         backgroundColor: '#007bff',
       },
+      headerLeft: () => (
+        <Button
+          onPress={() => signOut()}
+          style={{
+            paddingLeft: 10,
+            paddingRight: 10,
+            paddingTop: 5,
+            paddingBottom: 5
+          }}
+        >
+          <FeatherIcon
+            name='log-out'
+            size={22}
+            style={{ color: '#fff' }}
+          />
+        </Button>
+      ),
       headerRight: () => (
         <Button
           onPress={() => navigation.navigate('Editar Perfil')}
