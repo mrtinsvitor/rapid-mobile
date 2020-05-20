@@ -22,7 +22,7 @@ import api from '../utils/api';
 import storage from '../utils/storage';
 
 import EventCard from '../components/EventCard/EventCard';
-import EventFilters from '../components/EventFilters/EventFilters';
+import EventFilters from '../components/EventFilters';
 
 const Home = ({ navigation }) => {
   const [refreshing, setRefreshing] = React.useState(false);

@@ -1,1 +1,1 @@
-export { default } from './EventFilter';
+export { default } from './EventFilters';

@@ -13,6 +13,7 @@ import Event from '../../screens/Event';
 import QRCode from '../../screens/QRCode';
 import Profile from '../../screens/Profile';
 import Search from '../../screens/Search';
+import SearchResults from "../../screens/SearchResults";
 import Settings from '../../screens/Settings';
 
 import { getLastRouteByName } from '../../utils/navigation';
@@ -65,6 +66,8 @@ const SearchStack = createStackNavigator();
 const SearchStackScreen = ({ navigation, route }) => (
   <SearchStack.Navigator initialRouteName="Pesquisa" screenOptions={HeaderBar(navigation, route)}>
     <SearchStack.Screen name="Pesquisa" component={Search} />
+    <SearchStack.Screen name="Resultados Pesquisa" component={SearchResults} />
+    <SearchStack.Screen name="Evento" component={Event} />
   </SearchStack.Navigator>
 );
 

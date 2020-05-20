@@ -24,7 +24,6 @@ import { formatDateToDayMonth } from '../../utils/date';
 export default ({ event, presenceCheck, goToEvent }) => {
   const navigation = useNavigation();
   const { studyField, local } = event;
-  tron.log('event card', event)
 
   return (
     <View style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 7, paddingBottom: 7 }}>
