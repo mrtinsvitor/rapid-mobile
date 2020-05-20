@@ -13,16 +13,17 @@ import {
   Avatar,
   Text,
   ProgressBar,
+  Title,
+  Badge,
+  List
 } from 'react-native-paper';
-
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
 import AuthContext from '../context/AuthContext';
 
-import EventCard from '../components/EventCard';
-
 import api from '../utils/api';
 import storage from '../utils/storage';
+import { formatDateToDayMonth } from '../utils/date';
 
 import defaultAvatar from '../assets/img/avatar_placeholder.png';
 
@@ -32,7 +33,7 @@ export default ({ route }) => {
 
   const [loading, setLoading] = React.useState(true);
   const [user, setUser] = React.useState(null);
-  const [lastEvents, setLastEvents] = React.useState(null);
+  const [lastEvents, setLastEvents] = React.useState([]);
   const [hoursProgress, setHoursProgress] = React.useState(0);
 
   React.useLayoutEffect(() => {
@@ -93,8 +94,7 @@ export default ({ route }) => {
   }, [user]);
 
   React.useEffect(() => {
-    if (user === null)
-      return;
+    if (user === null) return;
 
     setHoursProgress(((user.complementaryHours) / 100 * 100) / 200);
   }, [user]);
@@ -110,36 +110,48 @@ export default ({ route }) => {
     <SafeAreaView style={{ flex: 1 }}>
       {!loading &&
         <View>
-          <View style={{ backgroundColor: '#007bff', paddingTop: 40, paddingBottom: 20 }}>
-            <View style={{ flexDirection: 'column', alignItems: 'center' }}>
-              <View style={{ flexDirection: 'column', top: -20 }}>
-                <Avatar.Image size={68} source={user.profilePhoto !== null ? user.profilePhoto : defaultAvatar} />
-              </View>
-              <View style={{ flexDirection: 'column' }}>
-                <View>
-                  <Text style={[styles.textInfo, styles.colorLight]}>{user.firstName} {user.lastName}</Text>
+          <ScrollView>
+
+            <View style={{ backgroundColor: '#007bff', paddingTop: 40, paddingBottom: 20 }}>
+              <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+                <View style={{ flexDirection: 'column', top: -20 }}>
+                  <Avatar.Image size={68} source={user.profilePhoto !== null ? user.profilePhoto : defaultAvatar} />
                 </View>
-                <View style={{ flexDirection: 'row' }}>
-                  <Text style={[styles.textInfo, styles.colorSecondary]}>{user.course.name}</Text>
-                  <Text style={[styles.textInfo, styles.colorSecondary]}> | </Text>
-                  <Text style={[styles.textInfo, styles.colorSecondary]}>{user.term.name}</Text>
+                <View style={{ flexDirection: 'column' }}>
+                  <View>
+                    <Text style={[styles.textInfo, styles.colorLight]}>{user.firstName} {user.lastName}</Text>
+                  </View>
+                  <View style={{ flexDirection: 'row' }}>
+                    <Text style={[styles.textInfo, styles.colorSecondary]}>{user.course.name}</Text>
+                    <Text style={[styles.textInfo, styles.colorSecondary]}> | </Text>
+                    <Text style={[styles.textInfo, styles.colorSecondary]}>{user.term.name}</Text>
+                  </View>
                 </View>
               </View>
             </View>
-          </View>
 
-          <View style={{ marginTop: 25, paddingLeft: 20, paddingRight: 20 }}>
-            <Text style={{ color: '#343a40', fontFamily: 'Poppins-Medium', fontSize: 16 }}>Horas Complementares</Text>
-            <Text style={{ color: '#212529', fontFamily: 'Roboto-Regular', alignSelf: 'flex-end' }}>{user.complementaryHours} / 200</Text>
-            <ProgressBar progress={hoursProgress} color='#007bff' style={{ height: 25 }} />
-          </View>
+            <View style={{ marginTop: 25, paddingLeft: 20, paddingRight: 20 }}>
+              <Text style={{ color: '#343a40', fontFamily: 'Poppins-Medium', fontSize: 16 }}>Horas Complementares</Text>
+              <Text style={{ color: '#212529', fontFamily: 'Roboto-Regular', alignSelf: 'flex-end' }}>{user.complementaryHours} / 200</Text>
+              <ProgressBar progress={hoursProgress} color='#007bff' style={{ height: 25 }} />
+            </View>
 
-          <View style={{ marginTop: 30, paddingLeft: 20, paddingRight: 20 }}>
-            <Text style={{ color: '#343a40', fontFamily: 'Poppins-Medium', fontSize: 16 }}>Eventos Recentes</Text>
-            <ScrollView style={{flexDirection: 'row'}}>
-              {lastEvents.map((el, i) => <EventCard key={i} event={el.event} goToEvent={null} />)}
-            </ScrollView>
-          </View>
+            <View style={{ marginTop: 30, paddingLeft: 20, paddingRight: 20 }}>
+              <Text style={{ color: '#343a40', fontFamily: 'Poppins-Medium', fontSize: 16, marginBottom: 10 }}>Eventos Recentes</Text>
+              {lastEvents.map((el, i) => (
+                <View key={i} style={styles.recentEventCard}>
+                  <Title style={styles.titleEvent}>{el.event.name}</Title>
+
+                  <Badge style={{ backgroundColor: '#007bff', fontFamily: 'Raleway-Regular', fontSize: 12, alignSelf: 'flex-start', marginBottom: 10 }} size={22}>{el.event.studyField.name}</Badge>
+
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <Text style={{ fontFamily: 'Raleway-Regular' }}>{el.event.complementaryHours} horas compl.</Text>
+                    <Text style={{ fontFamily: 'Raleway-Regular' }}>{formatDateToDayMonth(el.event.eventDate)} às {el.event.openingHour.substring(0, el.event.openingHour.length - 3)}</Text>
+                  </View>
+                </View>
+              ))}
+            </View>
+          </ScrollView>
         </View>
       }
     </SafeAreaView>
@@ -156,5 +168,18 @@ const styles = StyleSheet.create({
   },
   colorSecondary: {
     color: '#c9c9c9',
+  },
+  titleEvent: {
+    fontFamily: 'Poppins-Medium',
+    lineHeight: 20,
+    fontSize: 16,
+    paddingBottom: 5
+  },
+  recentEventCard: {
+    backgroundColor: 'white',
+    padding: 15,
+    borderRadius: 10,
+    marginBottom: 15,
+    elevation: 5
   }
 })
