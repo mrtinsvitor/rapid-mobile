@@ -39,7 +39,7 @@ export default () => {
         if (!user) {
           user = await getUserByEmail(firebaseUser.email);
         }
-        
+
         setIsLoading(false);
         setUser(user);
       });
@@ -68,6 +68,8 @@ export default () => {
           }
 
           const firebaseUser = await auth().signInWithEmailAndPassword(email, password);
+          
+          await storage.setItem('@user', user);
 
           setIsLoadingAuth(false);
           setUser(firebaseUser);
@@ -100,9 +102,9 @@ export default () => {
         return authSignOut();
       }
 
-      await storage.setItem('@user', user);
-
-      return user;
+      return storage.setItem('@user', user).then(() => {
+        return user;
+      })
     } catch (error) {
       console.log('[ERROR getUserByEmail] ', error);
       return null;
