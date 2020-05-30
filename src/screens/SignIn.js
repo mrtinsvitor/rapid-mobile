@@ -51,7 +51,7 @@ export default ({ navigation, route }) => {
           <Text
             category='h1'
             status='control'>
-            Rappid
+            Rapid
           </Text>
           <Text
             style={styles.signInLabel}
