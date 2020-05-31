@@ -1,11 +1,8 @@
-import tron from 'reactotron-react-native';
-
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 import {
   View,
-  TouchableHighlight
 } from 'react-native';
 
 import {

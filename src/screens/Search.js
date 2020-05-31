@@ -1,31 +1,20 @@
-import tron from 'reactotron-react-native';
 import React from 'react';
 
 import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
-  View,
 } from 'react-native';
 
 import {
-  ActivityIndicator,
-  Text,
   Searchbar,
-  Button,
-  List,
-  Divider
 } from 'react-native-paper';
-import FeatherIcon from 'react-native-vector-icons/Feather';
 
 import SearchEventsAreas from '../components/SearchEventsAreas';
 
-import api from '../utils/api';
 
 export default ({ navigation }) => {
-  const [eventsLoading, setEventsLoading] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState(null);
-  const [eventResults, setEventResults] = React.useState(null);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -33,7 +22,7 @@ export default ({ navigation }) => {
         <View style={{ paddingRight: 40 }}>
           <Searchbar
             placeholder="Pesquisar..."
-            style={{ width: 300, height: 35 }}
+            style={{ width: 300, height: 35, marginLeft: 20 }}
             inputStyle={{ padding: 0 }}
             onChangeText={setSearchQuery}
             value={searchQuery}

@@ -13,7 +13,6 @@ import {
   List,
   ActivityIndicator,
   Text,
-  Button
 } from 'react-native-paper';
 
 import FeatherIcon from 'react-native-vector-icons/Feather';
@@ -37,23 +36,23 @@ const Home = ({ navigation }) => {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       title: 'Eventos',
-      headerRight: () => (
-        <Button
-          onPress={() => navigation.navigate('Perfil', { user })}
-          style={{
-            paddingLeft: 10,
-            paddingRight: 10,
-            paddingTop: 5,
-            paddingBottom: 5
-          }}
-        >
-          <FeatherIcon
-            name='sliders'
-            size={24}
-            style={{ color: '#fff' }}
-          />
-        </Button>
-      )
+      // headerRight: () => (
+      //   <Button
+      //     onPress={() => navigation.navigate('Perfil', { user })}
+      //     style={{
+      //       paddingLeft: 10,
+      //       paddingRight: 10,
+      //       paddingTop: 5,
+      //       paddingBottom: 5
+      //     }}
+      //   >
+      //     <FeatherIcon
+      //       name='sliders'
+      //       size={24}
+      //       style={{ color: '#fff' }}
+      //     />
+      //   </Button>
+      // )
     });
   }, []);
 

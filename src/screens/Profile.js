@@ -1,5 +1,4 @@
 import React from 'react';
-import tron from 'reactotron-react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import {
@@ -16,7 +15,6 @@ import {
   ProgressBar,
   Title,
   Badge,
-  List
 } from 'react-native-paper';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
