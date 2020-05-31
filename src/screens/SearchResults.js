@@ -79,18 +79,19 @@ export default ({ navigation, route }) => {
       {eventsLoading &&
         <ActivityIndicator animating={eventsLoading} style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }} hidesWhenStopped />}
 
-      {error && <Text style={styles.errorMsg}>Ocorreu um erro</Text>}
-
-      {!eventsLoading && events.length === 0 &&
-        <Text style={styles.errorMsg}>Não foi encontrado nenhum evento</Text>
-      }
-
       {!eventsLoading && events.length > 0 &&
         <ScrollView>
           <List.Section style={{ paddingTop: 15, paddingBottom: 15 }}>
             <Text style={styles.titleEvents}>Eventos em {events[0].studyField.name}</Text>
-            <EventFilters />
-            {events.map((event, i) => <EventCard key={i} event={event} goToEvent={goToEvent} presenceCheck={event.studentEventEnrollment ? true : false} />)}
+
+            {!eventsLoading && events.length === 0 ?
+              <Text style={styles.errorMsg}>Não foi encontrado nenhum evento</Text> 
+              :
+              <View>
+                {/* <EventFilters /> */}
+                {events.map((event, i) => <EventCard key={i} event={event} goToEvent={goToEvent} presenceCheck={event.studentEventEnrollment ? true : false} />)}
+              </View>
+            }
           </List.Section>
         </ScrollView>
       }
@@ -104,7 +105,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontSize: 18,
     flex: 1,
-    fontFamily: 'Roboto-Regular'
+    fontFamily: 'Roboto-Regular',
   },
   titleEvents: {
     textAlign: 'left',

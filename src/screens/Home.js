@@ -149,9 +149,9 @@ const Home = ({ navigation }) => {
       {!eventsLoading &&
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <List.Section style={{ paddingTop: 15, paddingBottom: 15 }}>
-            {/* {!events.length &&
+            {!events.length &&
               <Text tyle={styles.errorMsg}>Nenhum evento encontrado</Text>
-            } */}
+            }
 
             <Text style={styles.titleEvents}>Eventos na sua área</Text>
             <EventFilters filterEvents={filterEvents} resetEvents={resetEvents} />
