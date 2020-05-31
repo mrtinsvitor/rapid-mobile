@@ -42,11 +42,10 @@ export default ({ navigation }) => {
   }, [user]);
 
   React.useEffect(() => {
-    if (!activeEnrollments.length) return;
+    // if (!activeEnrollments.length) return;
 
     const enrolledEvents = activeEnrollments.map((enrollment) => enrollment.event);
     setEvents(enrolledEvents);
-
   }, [activeEnrollments]);
 
   const getEnrollments = async () => {
@@ -55,6 +54,7 @@ export default ({ navigation }) => {
 
       setActiveEnrollments(enrollments.filter(enrollment => !enrollment.participationDate));
     } catch (error) {
+      tron.log('{ERROR [getEnrollments]}', error)
       setError(true);
     } finally {
       setIsLoading(false);
@@ -64,7 +64,7 @@ export default ({ navigation }) => {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
 
-    getEnrollments().then(() => setRefreshing(false));
+    getEnrollments().then(() => setRefreshing(false)).catch(err => tron.log('errr', err))
   }, [refreshing]);
 
   const goToEvent = (data) => {
@@ -75,16 +75,15 @@ export default ({ navigation }) => {
     <SafeAreaView style={{ flex: 1 }}>
       {/* <ActivityIndicator animating={isLoading} style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }} hidesWhenStopped /> */}
 
-      {error && <Text style={{ textAlign: 'center', alignSelf: 'center', flex: 1, fontSize: 18, fontFamily: 'Roboto-Regular' }}>Ocorreu um erro</Text>}
-
-      {!isLoading && !events.length &&
-        <Text style={{ textAlign: 'center', alignSelf: 'center', flex: 1, fontSize: 18, fontFamily: 'Roboto-Regular' }}>
-          Você ainda não se inscreveu em nenhum evento.
-        </Text>
-      }
-
-      {!isLoading && events.length > 0 && !error &&
+      {!isLoading &&
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+
+          {!events.length &&
+            <Text style={{ textAlign: 'center', alignSelf: 'center', flex: 1, fontSize: 18, fontFamily: 'Roboto-Regular' }}>
+              Você ainda não se inscreveu em nenhum evento.
+            </Text>
+          }
+
           <List.Section style={{ paddingTop: 15, paddingBottom: 15 }}>
             {events.map((event, i) => <EventCard key={i} event={event} presenceCheck goToEvent={goToEvent} />)}
           </List.Section>

@@ -131,7 +131,7 @@ export default ({ route, navigation }) => {
         <ScrollView>
           <View>
             <View>
-              <Image source={event.coverPhoto || eventPlaceholder} style={{ width: '100%', height: 225, borderBottomLeftRadius: 80 }} />
+              <Image source={require('../assets/img/event_placeholder.png')} style={{ width: '100%', height: 225, borderBottomLeftRadius: 80 }} />
             </View>
 
             <View style={{ paddingLeft: 30, paddingRight: 30, paddingTop: 25 }}>

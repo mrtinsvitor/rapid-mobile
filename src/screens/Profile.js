@@ -7,6 +7,7 @@ import {
   StyleSheet,
   View,
   ScrollView,
+  RefreshControl,
 } from 'react-native';
 import {
   Button,
@@ -31,6 +32,7 @@ export default ({ route }) => {
   const { signOut } = React.useContext(AuthContext);
   const navigation = useNavigation();
 
+  const [refreshing, setRefreshing] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
   const [user, setUser] = React.useState(null);
   const [lastEvents, setLastEvents] = React.useState([]);
@@ -80,13 +82,17 @@ export default ({ route }) => {
   }, []);
 
   React.useEffect(() => {
-    async function getStorageUser() {
-      const storageUser = await storage.getItem('@user');
-      setUser(storageUser);
-    }
-
-    getStorageUser();
+    getUser();
   }, []);
+
+  async function getUser() {
+    const storageUser = await storage.getItem('@user');
+
+    const user = await api.get('/students/find-by-email', { email: storageUser.email });
+    // storage.setItem(user);
+
+    setUser(user);
+  }
 
   React.useEffect(() => {
     if (user === null) return;
@@ -96,7 +102,7 @@ export default ({ route }) => {
   React.useEffect(() => {
     if (user === null) return;
 
-    setHoursProgress(((user.complementaryHours) / 100 * 100) / 200);
+    setHoursProgress(((user.complementaryHours || 0) / 100 * 100) / 200);
   }, [user]);
 
   const getLastEvents = async () => {
@@ -104,13 +110,24 @@ export default ({ route }) => {
     setLastEvents(events);
 
     setLoading(false);
+    setRefreshing(false);
   }
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+
+    getUser()
+      .then(getLastEvents()
+        .then(() => setRefreshing(false))
+      );
+
+  }, [refreshing]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {!loading &&
         <View>
-          <ScrollView>
+          <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
 
             <View style={{ backgroundColor: '#007bff', paddingTop: 40, paddingBottom: 20 }}>
               <View style={{ flexDirection: 'column', alignItems: 'center' }}>
@@ -132,7 +149,7 @@ export default ({ route }) => {
 
             <View style={{ marginTop: 25, paddingLeft: 20, paddingRight: 20 }}>
               <Text style={{ color: '#343a40', fontFamily: 'Poppins-Medium', fontSize: 16 }}>Horas Complementares</Text>
-              <Text style={{ color: '#212529', fontFamily: 'Roboto-Regular', alignSelf: 'flex-end' }}>{user.complementaryHours} / 200</Text>
+              <Text style={{ color: '#212529', fontFamily: 'Roboto-Regular', alignSelf: 'flex-end' }}>{user.complementaryHours || 0} / 200</Text>
               <ProgressBar progress={hoursProgress} color='#007bff' style={{ height: 25 }} />
             </View>
 

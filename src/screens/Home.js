@@ -69,6 +69,7 @@ const Home = ({ navigation }) => {
       const eventList = await api.get(`/events/find-by-field/${user.course.studyFieldId}/student-enrollment/${user.id}`);
       const sortedEventList = await eventList
         .filter(el => new Date(el.eventDate) >= new Date())
+        .filter(el => el.studentEventEnrollment ? !el.studentEventEnrollment.participationDate : el)
         .sort((a, b) => new Date(a.eventDate) - new Date(b.eventDate));
 
       setEvents(sortedEventList);
@@ -76,6 +77,7 @@ const Home = ({ navigation }) => {
       setEventsLoading(false);
     } catch (e) {
       tron.log('[ERROR getEvents()]: ', e);
+      setEventsLoading(false);
       setError(true);
     }
   }
@@ -142,14 +144,14 @@ const Home = ({ navigation }) => {
     <SafeAreaView style={{ flex: 1 }}>
       <ActivityIndicator animating={eventsLoading} style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }} hidesWhenStopped />
 
-      {error && <Text style={styles.errorMsg}>Ocorreu um erro</Text>}
+      {/* {error && <Text style={styles.errorMsg}>Ocorreu um erro</Text>} */}
 
       {!eventsLoading &&
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <List.Section style={{ paddingTop: 15, paddingBottom: 15 }}>
-            {!events.length &&
+            {/* {!events.length &&
               <Text tyle={styles.errorMsg}>Nenhum evento encontrado</Text>
-            }
+            } */}
 
             <Text style={styles.titleEvents}>Eventos na sua área</Text>
             <EventFilters filterEvents={filterEvents} resetEvents={resetEvents} />

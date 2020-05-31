@@ -152,6 +152,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+          storeFile file('rapid-key.keystore')
+          storePassword 'rapid123'
+          keyAlias 'rapid-mobile'
+          keyPassword 'rapid123'
+        }
     }
     buildTypes {
         debug {
