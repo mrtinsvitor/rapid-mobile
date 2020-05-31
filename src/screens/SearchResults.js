@@ -6,7 +6,6 @@ import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  RefreshControl,
   View,
 } from 'react-native';
 
@@ -15,12 +14,9 @@ import {
   ActivityIndicator,
   Text,
   Searchbar,
-  Button,
 } from 'react-native-paper';
-import FeatherIcon from 'react-native-vector-icons/Feather';
 
 import EventCard from '../components/EventCard';
-import EventFilters from '../components/EventFilters';
 
 import api from '../utils/api';
 
@@ -38,7 +34,7 @@ export default ({ navigation, route }) => {
         <View style={{ paddingRight: 40 }}>
           <Searchbar
             placeholder="Pesquisar..."
-            style={{ width: 290, height: 35, marginLeft: 25 }}
+            style={{ width: 280, height: 35, marginLeft: 50 }}
             inputStyle={{ padding: 0 }}
             onChangeText={setSearchQuery}
             value={searchQuery}
