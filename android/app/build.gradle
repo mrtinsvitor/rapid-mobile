@@ -134,6 +134,8 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        missingDimensionStrategy 'react-native-camera', 'general'
+        multiDexEnabled true
     }
     splits {
         abi {
@@ -149,6 +151,12 @@ android {
             storePassword 'android'
             keyAlias 'androiddebugkey'
             keyPassword 'android'
+        }
+        release {
+          storeFile file('rapid-key.keystore')
+          storePassword 'rapid123'
+          keyAlias 'rapid-mobile'
+          keyPassword 'rapid123'
         }
     }
     buildTypes {

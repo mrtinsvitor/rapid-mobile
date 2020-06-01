@@ -1,5 +1,3 @@
-import tron from 'reactotron-react-native'
-
 import React from 'react';
 
 import {

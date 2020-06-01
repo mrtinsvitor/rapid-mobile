@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Alert,
-  View
 } from 'react-native';
 
 export default ({ title, msg }) => {

@@ -1,12 +1,8 @@
 import React from 'react';
 
-import AsyncStorage from '@react-native-community/async-storage';
-import auth from '@react-native-firebase/auth';
-
 import {
   StyleSheet,
   View,
-  Alert
 } from 'react-native';
 import { Button, Input, Text } from '@ui-kitten/components';
 
@@ -21,15 +17,11 @@ import {
   TwitterIcon,
 } from '../components/Utils/Icons';
 
-import GenericAlert from '../components/GenericAlert';
-
 import AuthContext from '../context/AuthContext';
 
-import api from '../utils/api';
-
 export default ({ navigation, route }) => {
-  const [email, setEmail] = React.useState("admin@admin.com");
-  const [password, setPassword] = React.useState("admin123");
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
   const [passwordVisible, setPasswordVisible] = React.useState(false);
 
   const { signIn, signUp } = React.useContext(AuthContext);
@@ -51,7 +43,7 @@ export default ({ navigation, route }) => {
           <Text
             category='h1'
             status='control'>
-            Rappid
+            Rapid
           </Text>
           <Text
             style={styles.signInLabel}

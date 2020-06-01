@@ -18,12 +18,13 @@ import {
   Avatar,
   Divider,
   Button,
-  ActivityIndicator
+  ActivityIndicator,
+  IconButton
 } from 'react-native-paper';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { showMessage, hideMessage } from "react-native-flash-message";
+import { showMessage } from "react-native-flash-message";
 
 import EventMap from '../components/EventMap';
 
@@ -40,35 +41,55 @@ export default ({ route, navigation }) => {
   const { studyField, local } = event;
 
   const [isLoading, setIsLoading] = React.useState(true);
-  const [user, setUser] = React.useState({});
+  const [user, setUser] = React.useState(null);
   const [isLoadingEnrollment, setIsLoadingEnrollment] = React.useState(false);
   const [isEnrolled, setIsEnrolled] = React.useState(false);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
       title: capitalizeWords(event.name),
-      headerTitleContainerStyle: { width: '70%' },
+      headerTitleContainerStyle: { width: '70%', paddingRight: 5 },
+      headerRight: isEnrolled ? () => (
+        <Button
+          onPress={() => navigation.navigate('QRCode', { event })}
+          style={{ paddingLeft: 10, paddingRight: 5, paddingTop: 5, paddingBottom: 5 }}
+        >
+          <Icon
+            name="qrcode"
+            size={32}
+            style={{ color: '#fff' }}
+          />
+        </Button>
+      ) : null,
     });
-  }, [navigation]);
+  }, [isEnrolled]);
+
+  React.useEffect(() => {
+    async function getStorageUser() {
+      const storageUser = await storage.getItem('@user');
+      setUser(storageUser);
+    }
+
+    getStorageUser();
+  }, []);
 
   React.useEffect(() => {
     async function getEnrollment() {
-      try {
-        const storageUser = await storage.getItem('@user');
-        setUser(storageUser);
+      if (!user) return;
 
-        const enrollment = await api.get(`/events/find-one/event/${event.id}/student/${storageUser.id}`);
+      try {
+        const enrollment = await api.get(`/events/find-one/event/${event.id}/student/${user.id}`);
 
         setIsEnrolled(enrollment ? true : false);
-        setIsLoading(false);
       } catch (error) {
         tron.log('error', error)
+      } finally {
         setIsLoading(false);
       }
     }
 
     getEnrollment();
-  }, []);
+  }, [user])
 
   const enrollEvent = async () => {
     setIsLoadingEnrollment(true);
@@ -110,7 +131,7 @@ export default ({ route, navigation }) => {
         <ScrollView>
           <View>
             <View>
-              <Image source={event.coverPhoto || eventPlaceholder} style={{ width: '100%', height: 225, borderBottomLeftRadius: 80 }} />
+              <Image source={require('../assets/img/event_placeholder.png')} style={{ width: '100%', height: 225, borderBottomLeftRadius: 80 }} />
             </View>
 
             <View style={{ paddingLeft: 30, paddingRight: 30, paddingTop: 25 }}>

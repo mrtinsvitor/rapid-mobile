@@ -5,8 +5,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 export default {
   getItem: async (key) => {
     const item = await AsyncStorage.getItem(key);
-    // tron.log(`(AsyncStorage.getItem(${key})): ${item}`);
-
+    tron.log(`[STORAGE](getItem): ${key}`, JSON.parse(item));
     return JSON.parse(item);
   },
   setItem: async (key, value) => {
