@@ -1,4 +1,4 @@
-# Mobile Ap for an Academical Event Scheduler
+# Mobile App for an Academical Event Scheduler
 
 This is an undergraduate end of course project for academical event. This repository contains the React Native mobile application that is integrated with a [Node.Js Rest API](https://github.com/mrtins/rapid-api) and Web [Application](https://github.com/mrtins/rapid-web) for presence confirmation of academical events.
 
